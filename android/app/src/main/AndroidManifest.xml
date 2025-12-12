@@ -1,0 +1,118 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Permissions yang sudah ada -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    
+    <!-- Tambahkan permission VPN (untuk permission_handler) -->
+    <uses-permission android:name="android.permission.BIND_VPN_SERVICE" />
+    
+    <application
+        android:label="gts_shift_ddk"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher"
+        android:requestLegacyExternalStorage="true"> <!-- Tambahkan ini -->
+        
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:taskAffinity=""
+            android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize">
+            
+            <meta-data
+              android:name="io.flutter.embedding.android.NormalTheme"
+              android:resource="@style/NormalTheme"
+              />
+            
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            
+            <!-- Tambahkan intent-filter untuk URL launching -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" />
+                <data android:scheme="http" />
+            </intent-filter>
+            
+            <!-- Intent filter untuk OpenVPN -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="openvpn" />
+                <data android:scheme="file" />
+            </intent-filter>
+            
+        </activity>
+        
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+            
+    </application>
+    
+    <!-- Queries untuk Package Visibility (Android 11+) -->
+    <queries>
+        <!-- Queries yang sudah ada -->
+        <intent>
+            <action android:name="android.intent.action.PROCESS_TEXT"/>
+            <data android:mimeType="text/plain"/>
+        </intent>
+        
+        <!-- Queries untuk url_launcher -->
+        <!-- Browser -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        
+        <!-- OpenVPN -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="openvpn" />
+        </intent>
+        
+        <!-- File -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="file" />
+        </intent>
+        
+        <!-- Play Store -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="market" />
+        </intent>
+        
+        <!-- VPN Settings Intent -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="intent" />
+        </intent>
+        
+        <!-- Package query untuk OpenVPN Connect -->
+        <package android:name="net.openvpn.openvpn" />
+        <package android:name="net.openvpn.openvpnclient" />
+        <package android:name="org.openvpn" />
+        
+        <!-- Package query untuk browser -->
+        <package android:name="com.android.chrome" />
+        <package android:name="com.google.android.googlequicksearchbox" />
+        <package android:name="com.android.browser" />
+        
+        <!-- Package query untuk Play Store -->
+        <package android:name="com.android.vending" />
+        
+    </queries>
+    
+</manifest>
